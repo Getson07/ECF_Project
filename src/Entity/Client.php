@@ -25,8 +25,9 @@ class Client extends User
         $this->reservedTables = new ArrayCollection();
     }
 
-    public function getGuests(): ?int
+    public function getGuests(User $user=null): ?int
     {
+        parent::__construct($user);
         return $this->guests;
     }
 

@@ -26,8 +26,9 @@ class Administrator extends User
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Formula::class)]
     private Collection $formulas;
 
-    public function __construct()
+    public function __construct(User $user=null)
     {
+        parent::__construct($user);
         $this->schedules = new ArrayCollection();
         $this->dishes = new ArrayCollection();
         $this->dishCategories = new ArrayCollection();

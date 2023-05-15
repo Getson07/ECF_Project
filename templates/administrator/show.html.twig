@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administrator{% endblock %}
+
+{% block body %}
+    <h1>Administrator</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ administrator.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ administrator.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ administrator.roles ? administrator.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ administrator.password }}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ administrator.gender }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ administrator.firstname }}</td>
+            </tr>
+            <tr>
+                <th>DateOfBirth</th>
+                <td>{{ administrator.dateOfBirth ? administrator.dateOfBirth|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Salary</th>
+                <td>{{ administrator.salary }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_administrator_index') }}">back to list</a>
+
+    <a href="{{ path('app_administrator_edit', {'id': administrator.id}) }}">edit</a>
+
+    {{ include('administrator/_delete_form.html.twig') }}
+{% endblock %}

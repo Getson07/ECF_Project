@@ -22,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: UuidType::NAME, unique:true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?int $id = null;
+    private ?string $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
@@ -48,12 +48,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'guestInfo', targetEntity: ReservedTable::class)]
     private Collection $reservedTables;
 
-    public function __construct()
+    public function __construct(User $user = null)
     {
         $this->reservedTables = new ArrayCollection();
+        if($user != null){
+            $this->setEmail($user->getEmail());
+            $this->setPassword($user->getPassword());
+            $this->setRoles($user->getRoles());
+            $this->setFirstname($user->getFirstname());
+            #parent::__construct();
+        }
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
