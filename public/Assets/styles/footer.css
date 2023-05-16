@@ -1,0 +1,11 @@
+footer {
+  align-self: flex-end;
+  margin-top: 1.5rem;
+  background-color: #d9d9d9;
+  height: 2.5rem;
+  color: #001524;
+  font-family: "Roboto Serif";
+}
+footer a {
+  color: #001524;
+}
