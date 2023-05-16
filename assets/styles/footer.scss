@@ -4,8 +4,8 @@ footer {
   background-color: #d9d9d9;
   height: 2.5rem;
   color: #001524;
-  font-family: "Roboto Serif";
-}
-footer a {
-  color: #001524;
+  font-family: $Roboto_Serif;
+  a {
+    color: #001524;
+  }
 }

@@ -1,0 +1,18 @@
+@import "~bootstrap/scss/bootstrap";
+@import "./variables";
+@import "./fonts.scss";
+
+body {
+  font-family: $Merriweather;
+  font-size: 16px;
+  padding: 0;
+}
+
+/*Surcarge définitions bootstrap pour un meilleur rendu*/
+dl,
+ol,
+ul {
+  margin: 0;
+}
+@import "./header.scss";
+@import "./footer.scss";

@@ -1,0 +1,15 @@
+.body-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+header {
+  background-color: #d9d9d9;
+  color: #001524;
+  font-family: $Roboto_Serif;
+}
+.navbar-brand {
+  margin: 0;
+  font-family: $Ingrid_Darling;
+  font-size: 3rem;
+}
