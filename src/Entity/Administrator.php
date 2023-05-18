@@ -26,6 +26,9 @@ class Administrator extends User
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Formula::class)]
     private Collection $formulas;
 
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Menu::class)]
+    private Collection $menus;
+
     public function __construct(User $user=null)
     {
         parent::__construct($user);
@@ -33,6 +36,7 @@ class Administrator extends User
         $this->dishes = new ArrayCollection();
         $this->dishCategories = new ArrayCollection();
         $this->formulas = new ArrayCollection();
+        $this->menus = new ArrayCollection();
     }
 
 
@@ -162,6 +166,36 @@ class Administrator extends User
             // set the owning side to null (unless already changed)
             if ($formula->getCreator() === $this) {
                 $formula->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Menu>
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): self
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus->add($menu);
+            $menu->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): self
+    {
+        if ($this->menus->removeElement($menu)) {
+            // set the owning side to null (unless already changed)
+            if ($menu->getCreator() === $this) {
+                $menu->setCreator(null);
             }
         }
 

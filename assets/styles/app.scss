@@ -11,6 +11,13 @@ body {
   display: flex;
   flex-direction: column;
 }
+a {
+  text-decoration: none;
+  color: $Dark;
+  &:hover {
+    color: $DarkGreen;
+  }
+}
 h1 {
   color: $DarkGreen;
   text-align: center;

@@ -22,6 +22,7 @@ Encore
    */
   .addEntry("app", "./assets/app.js")
   .addStyleEntry("dish", "./assets/styles/dish.scss")
+  .addStyleEntry("formula", "./assets/styles/formula.scss")
 
   // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
   .enableStimulusBridge("./assets/controllers.json")

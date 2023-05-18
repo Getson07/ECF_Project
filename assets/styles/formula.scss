@@ -1,0 +1,9 @@
+@import "./app";
+
+.formula {
+  background-color: $Light;
+  .card-header,
+  .card-footer {
+    background-color: transparent;
+  }
+}

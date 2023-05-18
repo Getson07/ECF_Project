@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formula index
+{% endblock %}
+
+{% block stylesheets %}
+	{{ encore_entry_link_tags('formula') }}
+{% endblock %}
+{% block body %}
+	<h1>Formula index</h1>
+
+
+	<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4">
+		{% for formula in formulas %}
+			<div class="col">
+				<div class="card formula">
+					<div class="card-header w-100 d-flex flex-column align-items-center">
+						<h2 class="card-title">{{ formula.name }}</h2>
+					</div>
+					<div class="card-body w-100 d-flex flex-column align-items-center">
+						<ul class="list list-unstyled">
+							{% for dishCategory in formula.categoryFormulas %}
+								<li class="list-item">
+									{{ dishCategory.category }}
+								</li>
+							{% else %}
+								Aucune
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="card-footer">
+						<ul class="list-inline d-flex justify-content-end ">
+							<li class="list-item">{{ formula.price }}€</li>
+						</ul>
+					</div>
+				</div>
+				<a href="{{ path('app_formula_edit', {'id': formula.id}) }}" class="btn btn-warning">edit</a>
+			</div>
+		{% else %}
+			<p class="col">
+				<span>no records found</span>
+			</p>
+		{% endfor %}
+	</div>
+	<a href="{{ path('app_formula_new') }}" role="button" class="btn btn-success">Create new</a>
+
+{% endblock %}

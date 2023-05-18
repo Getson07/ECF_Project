@@ -19,9 +19,6 @@ class Formula
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: DishCategory::class, inversedBy: 'formulas')]
-    private Collection $dishCategories;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -32,10 +29,14 @@ class Formula
     #[ORM\JoinColumn(nullable: false)]
     private ?Administrator $creator = null;
 
+    #[ORM\OneToMany(mappedBy: 'formula', targetEntity: CategoryFormula::class)]
+    private Collection $categoryFormulas;
+
     public function __construct()
     {
-        $this->dishCategories = new ArrayCollection();
+        $this->categoryFormulas = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -54,29 +55,7 @@ class Formula
         return $this;
     }
 
-    /**
-     * @return Collection<int, DishCategory>
-     */
-    public function getDishCategories(): Collection
-    {
-        return $this->dishCategories;
-    }
-
-    public function addDishCategory(DishCategory $dishCategory): self
-    {
-        if (!$this->dishCategories->contains($dishCategory)) {
-            $this->dishCategories->add($dishCategory);
-        }
-
-        return $this;
-    }
-
-    public function removeDishCategory(DishCategory $dishCategory): self
-    {
-        $this->dishCategories->removeElement($dishCategory);
-
-        return $this;
-    }
+    
 
     public function getDescription(): ?string
     {
@@ -110,6 +89,36 @@ class Formula
     public function setCreator(?Administrator $creator): self
     {
         $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CategoryFormula>
+     */
+    public function getCategoryFormulas(): Collection
+    {
+        return $this->categoryFormulas;
+    }
+
+    public function addCategoryFormula(CategoryFormula $categoryFormula): self
+    {
+        if (!$this->categoryFormulas->contains($categoryFormula)) {
+            $this->categoryFormulas->add($categoryFormula);
+            $categoryFormula->setFormula($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategoryFormula(CategoryFormula $categoryFormula): self
+    {
+        if ($this->categoryFormulas->removeElement($categoryFormula)) {
+            // set the owning side to null (unless already changed)
+            if ($categoryFormula->getFormula() === $this) {
+                $categoryFormula->setFormula(null);
+            }
+        }
 
         return $this;
     }

@@ -24,6 +24,10 @@ class Menu
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'menus')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Administrator $creator = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +65,18 @@ class Menu
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCreator(): ?Administrator
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?Administrator $creator): self
+    {
+        $this->creator = $creator;
 
         return $this;
     }
