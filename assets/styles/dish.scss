@@ -1,0 +1,33 @@
+@import "./app.scss";
+
+$img-widht-lg: calc(100vw / 4);
+$img-widht-md: calc(100vw / 3);
+$img-height: calc(100vh / 4);
+.card-img-top {
+  height: $img-height;
+  // @include media-breakpoint-only(md) {
+  //   width: $img-widht-md;
+  // }
+  // @include media-breakpoint-only(lg) {
+  //   width: $img-widht-lg;
+  // }
+}
+.show-img {
+  width: 65vw;
+  height: 75vh;
+  background-color: $Gray;
+  box-shadow: 0 0 0.6rem $Dark;
+  padding: 0.3rem;
+  margin-bottom: 1rem;
+  .dish-img {
+    width: 60%;
+  }
+  .dish-text {
+    height: 100%;
+    width: 40%;
+    background-color: $Light;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

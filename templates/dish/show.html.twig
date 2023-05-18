@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dish
+{% endblock %}
+{% block stylesheets %}
+	{{ encore_entry_link_tags('dish') }}
+{% endblock %}
+{% block body %}
+	<h1>{{dish.title}}</h1>
+
+	<section class="m-auto row row-cols-1 row-cols-md-2 align-items-center show-img">
+		<div class="col h-100 dish-img">
+			<img src="{{ ['/Images',dish.category,dish.Image]|join('/')}}" alt="{{dish.title}}" class="img-fluid h-100">
+		</div>
+		<div class="col dish-text">
+			<p class="dish-description">{{dish.description}}</p>
+			<div class="d-flex justify-content-between">
+				<div class="stars">
+					{% if dish.rating %}
+						{% for mark in 0..(dish.rating - 1) %}
+							<span>*</span>
+						{% endfor %}
+					{% else %}
+						<span>Rate it</span>
+					{% endif %}
+				</div>
+				<h3 class="price">{{dish.price ~'€'}}</h3>
+			</div>
+		</div>
+	</section>
+
+	<a href="{{ path('app_dish_index') }}" class="btn btn-success">Liste</a>
+
+	<a href="{{ path('app_dish_edit', {'id': dish.id}) }}" class="btn btn-warning">Edit</a>
+
+	{{ include('dish/_delete_form.html.twig') }}
+{% endblock %}

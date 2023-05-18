@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dish index
+{% endblock %}
+{% block stylesheets %}
+	{{encore_entry_link_tags('dish')}}
+{% endblock %}
+
+{% block body %}
+	<h1>Dish index</h1>
+
+	<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+		{% for dish in dishes %}
+			<div class="col">
+				<div class="card h-100">
+					<img src="{{ ['/Images',dish.category,dish.Image]|join('/') }}" class="card-img-top" alt="{{dish.image}}">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<h5 class="card-title">{{ dish.title }}</h5>
+							<a href="{{path('app_dish_show', {'id': dish.id})}}" class="stretched-link"></a>
+							<h5>{{ dish.price ~'€' }}</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<p colspan="7">Aucun plat pour l'instant</p>
+		{% endfor %}
+	</div>
+
+	<a href="{{ path('app_dish_new') }}" role="button" class="btn btn-success">Create new</a>
+{% endblock %}

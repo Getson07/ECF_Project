@@ -1,0 +1,23 @@
+{{ form_start(form) }}
+<div class="row row-cols-4 align-items-center">
+	<div class="col">{{ form_row(form.title) }}</div>
+	<div class="col">{{ form_row(form.description) }}</div>
+	<div class="col">{{ form_row(form.imageFile) }}</div>
+	<div class="col">
+		<button class="btn btn-success">Ajouter</button>
+	</div>
+</div>
+<div class="row row-cols-4 align-items-center">
+	<div class="col">{{ form_row(form.price) }}</div>
+	<div class="col">{{ form_row(form.rating) }}</div>
+	<div class="col">{{ form_row(form.category) }}</div>
+	<div class="col">
+		<button class="btn btn-success">Soumettre</button>
+	</div>
+</div>
+<div class="row row-cols-4">
+	<div class="col">{{ form_row(form.creator) }}</div>
+</div>
+
+<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

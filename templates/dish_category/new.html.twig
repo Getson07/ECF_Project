@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New DishCategory{% endblock %}
+
+{% block body %}
+    <h1>Create new DishCategory</h1>
+
+    {{ include('dish_category/_form.html.twig') }}
+
+    <a href="{{ path('app_dish_category_index') }}">back to list</a>
+{% endblock %}

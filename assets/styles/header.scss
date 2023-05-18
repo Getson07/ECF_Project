@@ -1,11 +1,6 @@
-.body-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
 header {
-  background-color: #d9d9d9;
-  color: #001524;
+  background-color: $Gray;
+  color: $Dark;
   font-family: $Roboto_Serif;
 }
 .navbar-brand {

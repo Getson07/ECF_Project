@@ -1,11 +1,13 @@
 footer {
   align-self: flex-end;
   margin-top: 1.5rem;
-  background-color: #d9d9d9;
+  background-color: $Gray;
   height: 2.5rem;
-  color: #001524;
+  color: $Dark;
   font-family: $Roboto_Serif;
+  position: absolute;
+  bottom: -4rem;
   a {
-    color: #001524;
+    color: $Dark;
   }
 }
