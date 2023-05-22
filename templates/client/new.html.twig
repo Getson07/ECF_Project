@@ -1,11 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Client{% endblock %}
+{% block title %}New Client
+{% endblock %}
+{% block stylesheet %}
+	{{ encore_entry_link_tags('datepicker') }}
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Client</h1>
+	<h1>Create new Client</h1>
 
-    {{ include('client/_form.html.twig') }}
+	{{ include('client/_form.html.twig') }}
 
-    <a href="{{ path('app_client_index') }}">back to list</a>
+{% endblock %}
+{% block javascripts %}
+	{{ encore_entry_script_tags('datepicker') }}
 {% endblock %}

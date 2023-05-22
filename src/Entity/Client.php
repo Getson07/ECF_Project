@@ -20,8 +20,9 @@ class Client extends User
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: ReservedTable::class)]
     private Collection $reservedTables;
 
-    public function __construct()
+    public function __construct(User $user=null)
     {
+        parent::__construct($user);
         $this->reservedTables = new ArrayCollection();
     }
 

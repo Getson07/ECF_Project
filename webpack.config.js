@@ -21,8 +21,10 @@ Encore
    * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
    */
   .addEntry("app", "./assets/app.js")
+  .addEntry("datepicker", ["./assets/datepicker.js"])
   .addStyleEntry("dish", "./assets/styles/dish.scss")
   .addStyleEntry("formula", "./assets/styles/formula.scss")
+  .addStyleEntry("menu", "./assets/styles/menu.scss")
 
   // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
   .enableStimulusBridge("./assets/controllers.json")

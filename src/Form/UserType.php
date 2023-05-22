@@ -19,15 +19,8 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, ['required' => true])
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'Administrateur' => 'ROLE_ADMINISTRATOR',
-                    'CLient' => 'ROLE_CLIENT',
-                ],
-                'multiple' => false,
-                'expanded' => true,
-            ])
             ->add('password', PasswordType::class, ['required' => true])
+            ->add('confirmPassword', PasswordType::class, ['required' => true, 'mapped' => false])
             ->add('gender', ChoiceType::class, [
                 'choices' => [
                     'Homme' => 'H',
@@ -37,7 +30,16 @@ class UserType extends AbstractType
                 'expanded' => true,
             ])
             ->add('firstname', TextType::class, ['required' => true])
-            ->add('dateOfBirth', DateType::class)
+            ->add('dateOfBirth', DateType::class, ['widget' => 'single_text',
+            'attr' => ['class' => 'js-datepicker'],])
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'Administrateur' => 'ROLE_ADMINISTRATOR',
+                    'CLient' => 'ROLE_CLIENT',
+                ],
+                'multiple' => false,
+                'expanded' => true,
+            ])
         ;
         $builder->get('roles')
             ->addModelTransformer(new CallbackTransformer(
@@ -49,6 +51,7 @@ class UserType extends AbstractType
                     return [$rolesAsString];
                 }
         ));
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void

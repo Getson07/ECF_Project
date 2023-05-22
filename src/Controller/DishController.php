@@ -24,7 +24,7 @@ class DishController extends AbstractController
     }
 
     #[Route('/new', name: 'app_dish_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, DishRepository $dishRepository,DishCategoryRepository $dishCategoryRepository, #[Autowire('%photo_dir%')] string $photoDir): Response
+    public function new(Request $request, DishRepository $dishRepository, #[Autowire('%photo_dir%')] string $photoDir): Response
     {
         $dish = new Dish();
         $dish->setCreator($this->getUser());
@@ -32,14 +32,7 @@ class DishController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $dish->setCategory($dishCategoryRepository->findOneBy(['name' => $form->category]));
-            if ($imageFile = $form['imageFile']->getData()) {
-                #dd($imageFile);
-                // $filename = bin2hex(random_bytes(6)).'.'.$photo->guessExtension();
-                $filename = $imageFile->getClientOriginalName();
-                $imageFile->move($photoDir.'/'.$dish->getCategory().'/', $filename);
-                $dish->setImage($filename);
-            }
+            $this->saveImage($dish, $form['imageFile']->getData(), $photoDir);
             $dishRepository->save($dish, true);
 
             return $this->redirectToRoute('app_dish_index', [], Response::HTTP_SEE_OTHER);
@@ -49,6 +42,13 @@ class DishController extends AbstractController
             'dish' => $dish,
             'form' => $form,
         ]);
+    }
+    public function saveImage(Dish $dish,$imageFile, string $photoDir ){
+        if ($imageFile) {
+            $filename = $imageFile->getClientOriginalName();
+            $imageFile->move($photoDir.'/'.$dish->getCategory().'/', $filename);
+            $dish->setImage($filename);
+        }
     }
 
     #[Route('/{id}', name: 'app_dish_show', methods: ['GET'])]
@@ -60,12 +60,13 @@ class DishController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_dish_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Dish $dish, DishRepository $dishRepository): Response
+    public function edit(Request $request, Dish $dish, DishRepository $dishRepository, #[Autowire('%photo_dir%')] string $photoDir): Response
     {
         $form = $this->createForm(DishType::class, $dish);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->saveImage($dish, $form['imageFile']->getData(), $photoDir);
             $dishRepository->save($dish, true);
 
             return $this->redirectToRoute('app_dish_index', [], Response::HTTP_SEE_OTHER);

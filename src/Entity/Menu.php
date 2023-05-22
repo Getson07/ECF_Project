@@ -13,7 +13,7 @@ class Menu
     #[ORM\Column(type: UuidType::NAME, unique:true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?int $id = null;
+    private ?string $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -28,7 +28,7 @@ class Menu
     #[ORM\JoinColumn(nullable: false)]
     private ?Administrator $creator = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

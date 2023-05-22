@@ -1,34 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Menu{% endblock %}
+{% block title %}Menu
+{% endblock %}
+{% block stylesheets %}
+	{{ encore_entry_link_tags('menu') }}
+	{{ encore_entry_link_tags('formula') }}
+{% endblock %}
 
 {% block body %}
-    <h1>Menu</h1>
+	<h1>{{menu.title}}</h1>
+	<div class="d-flex justify-content-between">
+		<section class="row row-cols-1 row-cols-md-2 align-items-center show-img">
+			<div class="col h-100 menu-img">
+				<img src="{{ ['/Images/Menu',menu.Image]|join('/')}}" alt="{{menu.title}}" class="img-fluid h-100">
+			</div>
+			<div class="col menu-text">
+				<p class="menu-description">{{menu.description}}</p>
+			</div>
+		</section>
+		<div class="d-flex flex-column justify-content-between">
+			<section class="menu-formula">
+				{% for formula in formulas %}
+					<div class="card formula">
+						<div class="card-header w-100 d-flex flex-column align-items-center">
+							<h2 class="card-title">{{ formula.name }}</h2>
+						</div>
+						<div class="card-body w-100 d-flex flex-column align-items-center">
+							<ul class="list list-unstyled">
+								{% for dishCategory in formula.categoryFormulas %}
+									<li class="list-item">
+										{{ dishCategory.category }}
+									</li>
+								{% else %}
+									Aucune
+								{% endfor %}
+							</ul>
+						</div>
+						<div class="card-footer">
+							<ul class="list-inline d-flex justify-content-end ">
+								<li class="list-item">{{ formula.price }}€</li>
+							</ul>
+						</div>
+					</div>
+				{% else %}
+					<p class="col">
+						<span>no formula found</span>
+					</p>
+				{% endfor %}
+			</section>
+			<a href="#" class="btn btn-danger" title="Réserver une table">Réserver</a>
+		</div>
+	</div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ menu.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ menu.title }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ menu.image }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ menu.description }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<a href="{{ path('app_menu_index') }}" class="btn btn-success">Liste</a>
 
-    <a href="{{ path('app_menu_index') }}">back to list</a>
+	<a href="{{ path('app_menu_edit', {'id': menu.id}) }}" class="btn btn-warning">Edit</a>
 
-    <a href="{{ path('app_menu_edit', {'id': menu.id}) }}">edit</a>
-
-    {{ include('menu/_delete_form.html.twig') }}
+	{{ include('menu/_delete_form.html.twig') }}
 {% endblock %}

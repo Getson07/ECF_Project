@@ -1,4 +1,63 @@
+<style>
+	.form-row {
+		width: 60vw;
+		margin: auto;
+		min-height: 75vh;
+		box-shadow: 0 0 0.6rem #15616d5a;
+	}
+</style>
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{% for label, message in app.flashes %}
+	<div class="alert fade show alert-dismissible monAlert" style="color: white; background-color: rgba(255, 0, 0, 0.4);">
+		{{message[0]}}
+	</div>
+{% endfor %}
+<div class="row row-cols-2 form-row">
+	{% block formulaire %}
+		<div class="col">
+			{{form_row(form.firstname)}}
+		</div>
+		<div class="col">
+			{{form_row(form.email)}}
+		</div>
+		<div class="col">
+			{{form_row(form.password)}}
+		</div>
+		<div class="col">
+			{{form_row(form.confirmPassword)}}
+		</div>
+		<div class="col">
+			{{form_row(form.gender)}}
+		</div>
+		<div class="col">
+			{{form_row(form.dateOfBirth)}}
+		</div>
+		{% if app.user %}
+			<div class="col">
+				{{form_row(form.roles)}}
+			</div>
+		{% endif %}
+	{% endblock %}
+	<div class="col">
+		<button class="btn">{{ button_label|default('Save') }}</button>
+	</div>
+</div>
+
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}
+
+<script>
+	window.onload = () => {
+let alert = document.querySelector('.monAlert');
+alert.style.opacity = "2";
+console.log(alert.style.opacity, (parseFloat(alert.style.opacity) - 0.1));
+let interval = setInterval(() => {
+alert.style.opacity = (parseFloat(alert.style.opacity) - 0.1);
+console.log((parseFloat(alert.style.opacity)));
+if (parseFloat(alert.style.opacity) == 0) {
+clearInterval(interval);
+alert.style.display = "none";
+}
+}, 100);
+};
+</script>

@@ -1,39 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Menu index{% endblock %}
+{% block title %}Menu index
+{% endblock %}
+{% block stylesheets %}
+	{{encore_entry_link_tags('dish')}}
+{% endblock %}
 
 {% block body %}
-    <h1>Menu index</h1>
+	<h1>Menu index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Image</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for menu in menus %}
-            <tr>
-                <td>{{ menu.id }}</td>
-                <td>{{ menu.title }}</td>
-                <td>{{ menu.image }}</td>
-                <td>{{ menu.description }}</td>
-                <td>
-                    <a href="{{ path('app_menu_show', {'id': menu.id}) }}">show</a>
-                    <a href="{{ path('app_menu_edit', {'id': menu.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+		{% for menu in menus %}
+			<div class="col">
+				<div class="card h-100">
+					<img src="{{ ['/Images/Menu',menu.Image]|join('/') }}" class="card-img-top" alt="{{menu.image}}">
+					<div class="card-body">
+						<div class="d-flex justify-content-center">
+							<h5 class="card-title">{{ menu.title }}</h5>
+							<a href="{{path('app_menu_show', {'id': menu.id})}}" class="stretched-link"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<p colspan="7">Aucun plat pour l'instant</p>
+		{% endfor %}
+	</div>
 
-    <a href="{{ path('app_menu_new') }}">Create new</a>
+	<a href="{{ path('app_menu_new') }}">Create new</a>
 {% endblock %}

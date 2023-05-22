@@ -52,11 +52,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->reservedTables = new ArrayCollection();
         if($user != null){
+            $this->id = $user->getId();
             $this->setEmail($user->getEmail());
             $this->setPassword($user->getPassword());
             $this->setRoles($user->getRoles());
             $this->setFirstname($user->getFirstname());
-            #parent::__construct();
+            $this->setGender($user->getGender());
+            $this->setDateOfBirth($user->getDateOfBirth());
         }
     }
 

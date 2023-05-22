@@ -3,11 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Administrator;
+use App\Entity\Client;
+use App\Entity\User;
 use App\Form\AdministratorType;
+use App\Form\UserType;
 use App\Repository\AdministratorRepository;
+use App\Repository\ClientRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/administrator')]
@@ -22,20 +28,18 @@ class AdministratorController extends AbstractController
     }
 
     #[Route('/new', name: 'app_administrator_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AdministratorRepository $administratorRepository): Response
+    public function new(Request $request, UserRepository $userRepository, AdministratorRepository $administratorRepository, ClientRepository $clientRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $administrator = new Administrator();
-        $form = $this->createForm(AdministratorType::class, $administrator);
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $administratorRepository->save($administrator, true);
-
-            return $this->redirectToRoute('app_administrator_index', [], Response::HTTP_SEE_OTHER);
+            return $this->submiteForm($user, $passwordHasher, $clientRepository, $administratorRepository, $userRepository);
         }
 
-        return $this->renderForm('administrator/new.html.twig', [
-            'administrator' => $administrator,
+        return $this->renderForm('user/new.html.twig', [
+            'user' => $user,
             'form' => $form,
         ]);
     }
@@ -49,19 +53,17 @@ class AdministratorController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_administrator_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Administrator $administrator, AdministratorRepository $administratorRepository): Response
+    public function edit(Request $request, User $user, UserRepository $userRepository, AdministratorRepository $administratorRepository, ClientRepository $clientRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $form = $this->createForm(AdministratorType::class, $administrator);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $administratorRepository->save($administrator, true);
-
-            return $this->redirectToRoute('app_administrator_index', [], Response::HTTP_SEE_OTHER);
+            return $this->submiteForm($user, $passwordHasher, $clientRepository, $administratorRepository, $userRepository, false);
         }
 
-        return $this->renderForm('administrator/edit.html.twig', [
-            'administrator' => $administrator,
+        return $this->renderForm('user/edit.html.twig', [
+            'user' => $user,
             'form' => $form,
         ]);
     }
@@ -74,5 +76,24 @@ class AdministratorController extends AbstractController
         }
 
         return $this->redirectToRoute('app_administrator_index', [], Response::HTTP_SEE_OTHER);
+    }
+    private function submiteForm($user, $passwordHasher, $clientRepository, $administratorRepository, $userRepository, $new=true): Response
+    {
+        
+        if(!$new) $userRepository->remove($user, true);
+        else $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
+        if(in_array('ROLE_CLIENT', $user->getRoles())){
+            $client = new Client($user);
+            $client->setGuests(1);
+            $clientRepository->save($client, true);
+        }
+        elseif(in_array('ROLE_ADMINISTRATOR', $user->getRoles())){
+            $administrator = new Administrator($user);
+            $administratorRepository->save($administrator, true);
+        }
+        else
+            $userRepository->save($user, true);
+
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }

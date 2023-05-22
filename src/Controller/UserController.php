@@ -34,7 +34,10 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->submiteForm($user, $passwordHasher, $clientRepository, $administratorRepository, $userRepository);
+            $user->setRoles(['ROLE_USER']);
+            $userRepository->save($user, true);
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/new.html.twig', [
@@ -58,8 +61,10 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($user);
-            return $this->submiteForm($user, $passwordHasher, $clientRepository, $administratorRepository, $userRepository, false);
+            $user->setRoles(['ROLE_USER']);
+            $userRepository->save($user, true);
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/edit.html.twig', [
@@ -78,22 +83,4 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    private function submiteForm($user, $passwordHasher, $clientRepository, $administratorRepository, $userRepository, $new=true): Response
-    {
-        
-        if(!$new) $userRepository->remove($user, true);
-        else $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
-        if(in_array('ROLE_CLIENT', $user->getRoles())){
-            $client = new Client($user);
-            $clientRepository->save($client, true);
-        }
-        elseif(in_array('ROLE_ADMINISTRATOR', $user->getRoles())){
-            $administrator = new Administrator($user);
-            $administratorRepository->save($administrator, true);
-        }
-        else
-            $userRepository->save($user, true);
-
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-    }
 }

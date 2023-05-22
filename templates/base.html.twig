@@ -12,7 +12,7 @@
 			{% block stylesheets %}
 		{{ encore_entry_link_tags('app') }}
 			{# <link rel="stylesheet" href="{{asset('Assets/styles/header.css')}}">
-																																				<link rel="stylesheet" href="{{asset('Assets/styles/footer.css')}}"> #}
+																																																			<link rel="stylesheet" href="{{asset('Assets/styles/footer.css')}}"> #}
 		{% endblock %}
 
 		{% block javascripts %}
@@ -53,12 +53,20 @@
 									<li class="nav-item">
 										<a href="#" class="nav-link">Reserver</a>
 									</li>
-									<li class="nav-item">
-										<a href="{{path('app_user_new')}}" class="nav-link">S'inscrire</a>
-									</li>
-									<li class="nav-item">
-										<a href="{{path('app_login')}}" class="nav-link">Se connecter</a>
-									</li>
+									{% if not app.user %}
+										<li class="nav-item">
+											<a href="{{path('app_client_new')}}" class="nav-link">S'inscrire</a>
+										</li>
+										<li class="nav-item">
+											<a href="{{path('app_login')}}" class="nav-link">Se connecter</a>
+										</li>
+									{% endif %}
+									{% if is_granted('ROLE_ADMINISTRATOR') %}
+										<li class="nav-item">
+											<a href="{{path('app_administrator_new')}}" class="nav-link">New Admin</a>
+										</li>
+									{% endif %}
+
 								</ul>
 							</li>
 						</ul>
