@@ -26,11 +26,14 @@ class ReservedTable
     #[ORM\Column]
     private ?\DateTimeImmutable $reservedAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $reservedFor = null;
+    #[ORM\Column()]
+    private ?\DateTimeImmutable $reservedFor = null;
 
     #[ORM\Column]
     private ?bool $hasArrived = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $reservedForDate = null;
 
     public function getId(): ?int
     {
@@ -85,12 +88,12 @@ class ReservedTable
         return $this;
     }
 
-    public function getReservedFor(): ?\DateTimeInterface
+    public function getReservedFor(): ?\DateTimeImmutable
     {
         return $this->reservedFor;
     }
 
-    public function setReservedFor(\DateTimeInterface $reservedFor): self
+    public function setReservedFor(\DateTimeImmutable $reservedFor): self
     {
         $this->reservedFor = $reservedFor;
 
@@ -105,6 +108,18 @@ class ReservedTable
     public function setHasArrived(bool $hasArrived): self
     {
         $this->hasArrived = $hasArrived;
+
+        return $this;
+    }
+
+    public function getReservedForDate(): ?\DateTimeImmutable
+    {
+        return $this->reservedForDate;
+    }
+
+    public function setReservedForDate(\DateTimeImmutable $reservedForDate): self
+    {
+        $this->reservedForDate = $reservedForDate;
 
         return $this;
     }

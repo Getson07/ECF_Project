@@ -42,17 +42,16 @@ class ReservedTableRepository extends ServiceEntityRepository
 //    /**
 //     * @return ReservedTable[] Returns an array of ReservedTable objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   public function findByLowerDate($value): array
+   {
+       return $this->createQueryBuilder('r')
+           ->andWhere('r.reservedFor <= :val')
+           ->setParameter('val', $value)
+           ->orderBy('r.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?ReservedTable
 //    {

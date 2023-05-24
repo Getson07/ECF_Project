@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ReservedTable index
+{% endblock %}
+
+{% block body %}
+	<h1>ReservedTable index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>NumberOfTables</th>
+				<th>ReservedAt</th>
+				<th>ReservedFor</th>
+				<th>ReservedForDate</th>
+				<th>HasArrived</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for reserved_table in reserved_tables %}
+				<tr>
+					<td>{{ reserved_table.id }}</td>
+					<td>{{ reserved_table.numberOfTables }}</td>
+					<td>{{ reserved_table.reservedAt ? reserved_table.reservedAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ reserved_table.reservedFor ? reserved_table.reservedFor|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ reserved_table.reservedForDate ? reserved_table.reservedForDate|date('Y-m-d') : '' }}</td>
+					<td>{{ reserved_table.hasArrived ? 'Yes' : 'No' }}</td>
+					<td>
+						<a href="{{ path('app_reserved_table_show', {'id': reserved_table.id}) }}">show</a>
+						<a href="{{ path('app_reserved_table_edit', {'id': reserved_table.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_reserved_table_new') }}">Create new</a>
+{% endblock %}

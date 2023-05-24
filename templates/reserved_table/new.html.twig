@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ReservedTable
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	{{ encore_entry_link_tags('reservations')}}
+{% endblock %}
+
+{% block body %}
+	<h1>Create new ReservedTable</h1>
+
+	{{ include('reserved_table/_form.html.twig') }}
+
+	<a href="{{ path('app_reserved_table_index') }}">back to list</a>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('reservations') }}
+{% endblock %}

@@ -33,9 +33,25 @@ class Schedule
     #[ORM\JoinColumn(nullable: false)]
     private ?Administrator $admin = null;
 
+    public function __construct(Schedule $schedule = null )
+    {
+        if($schedule !== null){
+            $this->id = null;
+            $this->setDay($schedule->getDay());
+            $this->setOpeningTime($schedule->getOpeningTime());
+            $this->setClosingTime($schedule->getClosingTime());
+            $this->setBreakStartTime($schedule->getBreakStartTime());
+            $this->setBreakEndTime($schedule->getBreakEndTime());
+            $this->setAdmin($schedule->getAdmin());
+        }
+    }
     public function getId(): ?int
     {
         return $this->id;
+    }
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     public function getDay(): ?string

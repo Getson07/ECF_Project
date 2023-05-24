@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ReservedTable{% endblock %}
+
+{% block body %}
+    <h1>Edit ReservedTable</h1>
+
+    {{ include('reserved_table/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_reserved_table_index') }}">back to list</a>
+
+    {{ include('reserved_table/_delete_form.html.twig') }}
+{% endblock %}

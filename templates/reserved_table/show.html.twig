@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ReservedTable{% endblock %}
+
+{% block body %}
+    <h1>ReservedTable</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reserved_table.id }}</td>
+            </tr>
+            <tr>
+                <th>NumberOfTables</th>
+                <td>{{ reserved_table.numberOfTables }}</td>
+            </tr>
+            <tr>
+                <th>ReservedAt</th>
+                <td>{{ reserved_table.reservedAt ? reserved_table.reservedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ReservedFor</th>
+                <td>{{ reserved_table.reservedFor ? reserved_table.reservedFor|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>HasArrived</th>
+                <td>{{ reserved_table.hasArrived ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reserved_table_index') }}">back to list</a>
+
+    <a href="{{ path('app_reserved_table_edit', {'id': reserved_table.id}) }}">edit</a>
+
+    {{ include('reserved_table/_delete_form.html.twig') }}
+{% endblock %}

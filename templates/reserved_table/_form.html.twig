@@ -1,0 +1,61 @@
+<style>
+	.reservedTable {
+		width: 60vw;
+		margin: auto;
+		box-shadow: 0 0 0.6rem darkgreen;
+	}
+</style>
+
+{{ form_start(form) }}
+<div class="row justify-content-center reservedTable">
+	<div class="col-6">
+		{{ form_row(form.email, {'attr': {'value': app.user ? app.user.email }}) }}
+	</div>
+	<div class="col-6">
+		{{ form_row(form.name, {'attr': {'value': app.user ? app.user.firstname }}) }}
+	</div>
+	<div class="col-6">
+		{{ form_row(form.phoneNumber, {'attr': {'value': app.user ? app.user.phoneNumber }}) }}
+	</div>
+	<div class="col-12">
+		<div class="row justify-content-center">
+			<div class="col-4">{{ form_label(form.reservedForDate) }}</div>
+			<div class="col-4 alert alert-warning choose-time"></div>
+			<div class="input-group input-group-sm mb-3 w-75 ">
+				{{ form_widget(form.reservedForDate, {'attr': {'class': 'reservedDate'}})}}
+				<span class="input-group-text">@</span>
+				<div class="dropdown">
+					<a class="btn btn-secondary dropdown-toggle printChoiceTime" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Heure
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<div class="schedule-hours">Veuillez choisir une date</div>
+						</li>
+					</ul>
+				</div>
+				{{ form_widget(form.reservedTime, {'attr': {'class': 'reservedTime', 'hidden': 'hiden'}})}}
+			</div>
+		</div>
+	</div>
+	<div class="col-6">
+		{{ form_row(form.numberOfTables, {'attr': {'value': app.user and not is_granted('ROLE_ADMINISTRATOR') ? app.user.guests }}) }}
+	</div>
+	<div class="col-6">
+		{% if is_granted('ROLE_ADMINISTRATOR') %}
+			{{ form_row(form.hasArrived) }}
+		{% endif %}
+	</div>
+	{% if app.user %}
+		<div class="col-6">
+			{{ form_row(form.client, {'attr': {'value': app.user }}) }}
+		</div>
+	{% else %}
+		<div class="col-6">
+			{{ form_row(form.guestInfo) }}
+		</div>
+	{% endif %}
+</div>
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}
